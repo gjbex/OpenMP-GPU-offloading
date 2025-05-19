@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/devices_gpu.exe.dir/devices_gpu.c.o -o devices_gpu.exe 

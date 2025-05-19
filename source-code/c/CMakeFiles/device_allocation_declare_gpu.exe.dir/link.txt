@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/device_allocation_declare_gpu.exe.dir/device_allocation_declare_gpu.c.o -o device_allocation_declare_gpu.exe 

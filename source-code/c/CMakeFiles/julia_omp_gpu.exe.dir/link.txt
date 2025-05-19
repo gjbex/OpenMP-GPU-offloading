@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/julia_omp_gpu.exe.dir/julia_omp_gpu.c.o -o julia_omp_gpu.exe 

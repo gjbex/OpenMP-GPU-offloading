@@ -1,0 +1,1 @@
+/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/hello_world_gpu.exe.dir/hello_world_gpu.c.o -o hello_world_gpu.exe 
