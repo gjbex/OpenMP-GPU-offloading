@@ -62,8 +62,13 @@ end do
 ! Extract data from target
 !$OMP target exit data map(from: a(n, n))
 
+! Free device memory
+call omp_target_free(b_dev_ptr, dev)
+
+! Show resullt
 print '(A10 E25.15)', 'sum = ', sum(a)
 
+! Compute and show expected result
 total = 0.0_rk
 do i = 1, n
   do j = 1, n
