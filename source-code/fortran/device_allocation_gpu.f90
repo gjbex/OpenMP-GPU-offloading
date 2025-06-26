@@ -40,7 +40,7 @@ b_dev_ptr = omp_target_alloc(n*n*dbl_bytes, dev)
 call c_f_pointer(b_dev_ptr, b, [n*n])
 
 ! Initialise b on target device
-!$OMP target teams distribute parallel do is_device_ptr(b)
+!$OMP target teams distribute parallel do is_device_ptr(b) default(none) private(j) shared(b, n)
 do i = 1, n
   do j = 1, n
     b((i-1)*n + j) = 1.0_rk*((i-1)*n + (j-1))/(n*n)
@@ -50,7 +50,7 @@ end do
 
 ! Main loop, on target device
 do iter = 1, nr_iters
-  !$OMP target teams distribute parallel do is_device_ptr(b)
+  !$OMP target teams distribute parallel do is_device_ptr(b) default(none) private(j) shared(a, b, n)
   do i = 1, n
     do j = 1,n
       a((i - 1)*n + j)  = b((i-1)*n + j)
