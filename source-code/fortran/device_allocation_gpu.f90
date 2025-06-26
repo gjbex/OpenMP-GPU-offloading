@@ -1,68 +1,75 @@
 program device_allocation_gpu
 
-use OMP_lib
-use iso_c_binding
+use, intrinsic :: omp_lib, only : omp_get_default_device, omp_target_alloc
+use, intrinsic :: iso_c_binding, only : c_double, c_float, c_ptr, c_int, c_size_t, c_sizeof, c_f_pointer
+use, intrinsic :: iso_fortran_env, only : REAL64, REAL32
 
 implicit none
 
+integer, parameter :: rk = REAL64
+integer, parameter :: c_rk = c_double
 integer, parameter :: n = 1000
 integer, parameter :: nr_iters = 10
-
 type(c_ptr) :: b_dev_ptr
-real(c_double), pointer :: b(:)
-integer(c_size_t) :: dbl_bytes
-integer(c_int) :: dev
-double precision :: a(n*n)
+real(kind=c_rk), dimension(:), pointer :: b
+integer(kind=c_size_t) :: dbl_bytes
+integer(kind=c_int) :: dev
+real(kind=rk), dimension(n*n) :: a
+real(kind=rk) :: total
+integer :: i, j, iter
 
-double precision :: sumv
-integer :: ii, jj, iter
+! Get device
+dev = omp_get_default_device()
 
-!> Move a array to target device
-!$OMP target enter data map(to: a(1:n*n))
+! Move array a to target device
+!$OMP target enter data map(to: a(n*n))
 
-!> Initialise a on target device
+! Initialise a on target device, note: not required, only for demonstration
 !$OMP target teams distribute parallel do
-do ii = 1, n
-  a((ii-1)*n + ii) = 0.d0
+do i = 1, n
+    do j = 1, n
+        a((i - 1)*n + j) = 0.0_rk
+    end do
 end do
 !$OMP end target teams distribute parallel do
 
-!> Allocate b on device
-dbl_bytes = c_sizeof(real(1.d0,kind=c_double))
-dev = omp_get_default_device()
+! Allocate b on device
+dbl_bytes = c_sizeof(real(1.0_rk, kind=c_rk))
 b_dev_ptr = omp_target_alloc(n*n*dbl_bytes, dev)
 
 call c_f_pointer(b_dev_ptr, b, [n*n])
 
-!> Initialise b on target device
+! Initialise b on target device
 !$OMP target teams distribute parallel do is_device_ptr(b)
-do ii = 1,n
-  do jj = 1,n
-    b((ii-1)*n + jj) = 1.d0*((ii-1)*n + (jj-1))/(n*n)
+do i = 1, n
+  do j = 1, n
+    b((i-1)*n + j) = 1.0_rk*((i-1)*n + (j-1))/(n*n)
   end do
 end do
 !$OMP end target teams distribute parallel do
 
-!> Main loop, on target device
+! Main loop, on target device
 do iter = 1, nr_iters
   !$OMP target teams distribute parallel do is_device_ptr(b)
-  do ii = 1, n
-    do jj = 1,n
-      a((ii-1)*n + jj)  = b((ii-1)*n + jj)
+  do i = 1, n
+    do j = 1,n
+      a((i - 1)*n + j)  = b((i-1)*n + j)
     end do
   end do
   !$OMP end target teams distribute parallel do
 end do
 
-!> Extract data from target
-!$OMP target exit data map(from: a(1:n*n))
+! Extract data from target
+!$OMP target exit data map(from: a(n*n))
 
-sumv = 0.d0
-do ii = 1, n
-  do jj = 1, n
-    sumv = sumv + a((ii-1)*n + jj)
+print '(A10 E25.15)', 'sum = ', sum(a)
+
+total = 0.0_rk
+do i = 1, n
+  do j = 1, n
+    total = 1.0_rk*((i-1)*n + (j-1))/(n*n)
   end do
 end do
-write(*,*) "sum = ", sumv
+print '(A10 E25.15)', 'expected = ', total
 
 end program device_allocation_gpu
