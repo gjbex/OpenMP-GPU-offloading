@@ -14,7 +14,7 @@ type(c_ptr) :: b_dev_ptr
 real(kind=c_rk), dimension(:), pointer :: b
 integer(kind=c_size_t) :: dbl_bytes
 integer(kind=c_int) :: dev
-real(kind=rk), dimension(n*n) :: a
+real(kind=rk), dimension(n, n) :: a
 real(kind=rk) :: total
 integer :: i, j, iter
 
@@ -22,13 +22,13 @@ integer :: i, j, iter
 dev = omp_get_default_device()
 
 ! Move array a to target device
-!$OMP target enter data map(to: a(n*n))
+!$OMP target enter data map(to: a(n, n))
 
 ! Initialise a on target device, note: not required, only for demonstration
 !$OMP target teams distribute parallel do
 do i = 1, n
     do j = 1, n
-        a((i - 1)*n + j) = 0.0_rk
+        a(i,j) = 0.0_rk
     end do
 end do
 !$OMP end target teams distribute parallel do
@@ -53,14 +53,14 @@ do iter = 1, nr_iters
   !$OMP target teams distribute parallel do is_device_ptr(b) default(none) private(j) shared(a, b, n)
   do i = 1, n
     do j = 1,n
-      a((i - 1)*n + j)  = b((i-1)*n + j)
+      a(i, j)  = b((i-1)*n + j)
     end do
   end do
   !$OMP end target teams distribute parallel do
 end do
 
 ! Extract data from target
-!$OMP target exit data map(from: a(n*n))
+!$OMP target exit data map(from: a(n, n))
 
 print '(A10 E25.15)', 'sum = ', sum(a)
 
