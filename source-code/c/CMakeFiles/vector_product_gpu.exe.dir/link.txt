@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/vector_product_gpu.exe.dir/vector_product_gpu.c.o -o vector_product_gpu.exe 

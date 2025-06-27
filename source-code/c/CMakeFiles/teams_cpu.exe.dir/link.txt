@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp CMakeFiles/teams_cpu.exe.dir/teams_cpu.c.o -o teams_cpu.exe 

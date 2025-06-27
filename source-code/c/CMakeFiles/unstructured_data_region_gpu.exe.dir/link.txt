@@ -1,1 +1,0 @@
-/opt/nvidia/hpc_sdk/Linux_x86_64/24.7/compilers/bin/nvc -mp=gpu CMakeFiles/unstructured_data_region_gpu.exe.dir/unstructured_data_region_gpu.c.o -o unstructured_data_region_gpu.exe 
