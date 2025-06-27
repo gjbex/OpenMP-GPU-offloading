@@ -66,7 +66,7 @@ do iter = 1, nr_iters
   !$OMP target teams distribute parallel do is_device_ptr(b) default(none) private(j) shared(a, b, n)
   do i = 1, n
     do j = 1,n
-      a(i, j) = b((i-1)*n + j)
+      a(i, j) = a(i, j) + b((i-1)*n + j)
     end do
   end do
   !$OMP end target teams distribute parallel do
