@@ -1,0 +1,13 @@
+# CMake build directories
+build/
+
+# executables
+*.exe
+a.out
+
+# object files
+*.o
+
+# libraries
+*.so
+*.a
