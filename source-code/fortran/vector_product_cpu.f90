@@ -1,4 +1,4 @@
-program vector_product_gpu
+program vector_product_cpu
 
     use, intrinsic :: iso_fortran_env, only: dp => real64, sp => real32
     implicit none
@@ -12,7 +12,6 @@ program vector_product_gpu
     integer :: i, j
 
     call cl_arguments(m, n)
-
     ! Allocate arrays
     allocate(vecA(m), vecB(m), vecC(m))
 
@@ -20,13 +19,13 @@ program vector_product_gpu
     vecB = 2.0_rk
     vecC = 0.0_rk
 
-    !$OMP target teams loop map(to: vecA(1:m), vecB(1:m)) map(tofrom: vecC(1:m)) private(i, j) shared(n, vecA, vecB, vecC) default(none)
+    !$OMP parallel do private(j) shared(vecA, vecB, vecC, n) default(none)
     do i = 1, size(vecC)
         do j = 1, n
             vecC(i) = vecC(i) + vecA(i)*vecB(i)
         end do
     end do
-    !$OMP end target teams loop
+    !$OMP end parallel do
 
     sum_value = sum(vecC)
 
@@ -68,4 +67,4 @@ contains
         end select
     end subroutine cl_arguments
 
-end program vector_product_gpu
+end program vector_product_cpu
