@@ -10,9 +10,13 @@ set(CMAKE_Fortran_MODULE_DIRECTORY
 file(MAKE_DIRECTORY ${CMAKE_Fortran_MODULE_DIRECTORY})
 
 add_executable(vector_product_cpu.exe vector_product_cpu.f90)
-target_compile_options(vector_product_cpu.exe PRIVATE -fopenmp)
+target_compile_options(vector_product_cpu.exe PRIVATE -mp)
 target_link_options(vector_product_cpu.exe PRIVATE -fopenmp)
 
 add_executable(vector_product_gpu.exe vector_product_gpu.f90)
-target_compile_options(vector_product_gpu.exe PRIVATE -fopenmp) 
-target_link_options(vector_product_gpu.exe PRIVATE -fopenmp) 
+target_compile_options(vector_product_gpu.exe PRIVATE -mp=gpu) 
+target_link_options(vector_product_gpu.exe PRIVATE -mp=gpu) 
+
+add_executable(device_allocation_gpu.exe device_allocation_gpu.f90)
+target_compile_options(device_allocation_gpu.exe PRIVATE -mp=gpu) 
+target_link_options(device_allocation_gpu.exe PRIVATE -mp=gpu) 
