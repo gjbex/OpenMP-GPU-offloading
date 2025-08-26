@@ -20,3 +20,7 @@ target_link_options(vector_product_gpu.exe PRIVATE -mp=gpu)
 add_executable(device_allocation_gpu.exe device_allocation_gpu.f90)
 target_compile_options(device_allocation_gpu.exe PRIVATE -mp=gpu) 
 target_link_options(device_allocation_gpu.exe PRIVATE -mp=gpu) 
+
+add_executable(hello_world_gpu.exe hello_world_gpu.f90)
+target_compile_options(hello_world_gpu.exe PRIVATE -mp=gpu) 
+target_link_options(hello_world_gpu.exe PRIVATE -mp=gpu) 
