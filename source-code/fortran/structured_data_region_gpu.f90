@@ -1,5 +1,5 @@
 program structured_data_region_gpu
-    use, intrinsic :: iso_fortran_env, only : dp => REAL64, output_unit
+    use, intrinsic :: iso_fortran_env, only : dp => REAL64
     implicit none
     integer, parameter :: n = 1000, nr_iters = 10
     real(Kind=dp), dimension(n*n) :: a, b
@@ -15,7 +15,7 @@ program structured_data_region_gpu
 
         do i = 1,n
             do j = 1,n
-                b((i - 1)*n + j) = 1.0_dp*((i - 1)*n + (j - 1))/n**2
+                b((i - 1)*n + j) = real((i - 1)*n + (j - 1), kind=dp)/n**2
             end do
         end do
 
@@ -33,6 +33,6 @@ program structured_data_region_gpu
     !$OMP end target data
 
     sumv = sum(a)
-    write(output_unit, fmt='(A, I0)') "sum = ", sumv
+    print '(A, I0)', 'sum = ', sumv
 
 end program structured_data_region_gpu
