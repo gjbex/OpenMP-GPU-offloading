@@ -1,49 +1,40 @@
 program unstructured_data_region_gpu
+    use, intrinsic :: iso_fortran_env, only : dp => REAL64
+    implicit none
+    integer, parameter :: n = 1000, nr_iters = 10
+    real(kind=dp), dimension(n*n) :: a, b
+    real(kind=dp) :: sumv
+    integer :: i, j, iter
 
-implicit none
+    !$OMP target enter data map(to: a(1:n*n))
 
-integer, parameter :: n = 1000
-integer, parameter :: nr_iters = 10
-
-double precision :: a(n*n), b(n*n)
-double precision :: sumv
-integer :: ii, jj, iter
-
-!$OMP target enter data map(to: a(1:n*n))
-
-!$OMP target teams distribute parallel do
-do ii = 1, n
-  a((ii-1)*n + ii) = 0.d0
-end do
-!$OMP end target teams distribute parallel do
-
-do ii = 1,n
-  do jj = 1,n
-    b((ii-1)*n + jj) = 1.d0*((ii-1)*n + (jj-1))/(n*n)
-  end do
-end do
-
-
-!$OMP target enter data map(to: b(1:n*n))
-
-do iter = 1, nr_iters
-  !$OMP target teams distribute parallel do
-  do ii = 1, n
-    do jj = 1,n
-      a((ii-1)*n + jj) = a((ii-1)*n + jj) + b((ii-1)*n + jj)
+    !$OMP target teams distribute parallel do
+    do i = 1, n*n
+        a(i) = 0.0_dp
     end do
-  end do
-  !$OMP end target teams distribute parallel do
-end do
+    !$OMP end target teams distribute parallel do
 
-!$OMP target exit data map(from: a(1:n*n))
+    do i = 1,n
+        do j = 1,n
+            b((i - 1)*n + j) = real((i - 1)*n + (j - 1), kind=dp)/n**2
+        end do
+    end do
 
-sumv = 0.d0
-do ii = 1, n
-  do jj = 1, n
-    sumv = sumv + a((ii-1)*n + jj)
-  end do
-end do
-write(*,*) "sum = ", sumv
+    !$OMP target enter data map(to: b(1:n*n))
+
+    do iter = 1, nr_iters
+        !$OMP target teams distribute parallel do
+        do i = 1, n
+            do j = 1,n
+                a((i - 1)*n + j) = a((i - 1)*n + j) + b((i - 1)*n + j)
+            end do
+        end do
+        !$OMP end target teams distribute parallel do
+    end do
+
+    !$OMP target exit data map(from: a(1:n*n))
+
+    sumv = sum(a)
+    print '(A, I0)', sumv
 
 end program unstructured_data_region_gpu
