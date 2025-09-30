@@ -34,3 +34,7 @@ add_executable(julia_omp_target_declare.exe
     julia_gpu_kernels.f90)
 target_compile_options(julia_omp_target_declare.exe PRIVATE -mp=gpu)
 target_link_options(julia_omp_target_declare.exe PRIVATE -mp=gpu)
+
+add_executable(structured_data_region_gpu.exe structured_data_region_gpu.f90)
+target_compile_options(structured_data_region_gpu.exe PRIVATE -mp=gpu)
+target_link_options(structured_data_region_gpu.exe PRIVATE -mp=gpu)
