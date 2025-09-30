@@ -42,3 +42,7 @@ target_link_options(structured_data_region_gpu.exe PRIVATE -mp=gpu)
 add_executable(unstructured_data_region_gpu.exe unstructured_data_region_gpu.f90)
 target_compile_options(unstructured_data_region_gpu.exe PRIVATE -mp=gpu)
 target_link_options(unstructured_data_region_gpu.exe PRIVATE -mp=gpu)
+
+add_executable(heat_gpu.exe heat_gpu.f90)
+target_compile_options(heat_gpu.exe PRIVATE -mp=gpu)
+target_link_options(heat_gpu.exe PRIVATE -mp=gpu)
