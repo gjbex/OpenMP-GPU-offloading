@@ -24,3 +24,13 @@ target_link_options(device_allocation_gpu.exe PRIVATE -mp=gpu)
 add_executable(hello_world_gpu.exe hello_world_gpu.f90)
 target_compile_options(hello_world_gpu.exe PRIVATE -mp=gpu) 
 target_link_options(hello_world_gpu.exe PRIVATE -mp=gpu) 
+
+add_executable(julia_omp_gpu.exe julia_omp_gpu.f90)
+target_compile_options(julia_omp_gpu.exe PRIVATE -mp=gpu)
+target_link_options(julia_omp_gpu.exe PRIVATE -mp=gpu)
+
+add_executable(julia_omp_target_declare.exe
+    julia_omp_target_declare.f90
+    julia_gpu_kernels.f90)
+target_compile_options(julia_omp_target_declare.exe PRIVATE -mp=gpu)
+target_link_options(julia_omp_target_declare.exe PRIVATE -mp=gpu)
