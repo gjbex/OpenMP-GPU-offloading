@@ -1,0 +1,3 @@
+project:
+  title: "OpenMP GPU offloading"
+  output-dir: "slides"
