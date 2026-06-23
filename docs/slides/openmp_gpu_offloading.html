@@ -360,6 +360,7 @@
 <li><code>device</code> clause allows to explicitly select device</li>
 <li><code>omp_get_num_devices()</code>, <code>omp_get_default_device()</code></li>
 <li>Devices numbered from 0 to <code>omp_get_num_devices() - 1</code></li>
+<li><code>omp_get_initial_device()</code> returns device where host code is running</li>
 </ul>
 </section>
 <section id="creating-teams" class="slide level2">
@@ -383,7 +384,7 @@
 <li>Simple</li>
 <li>Portable</li>
 </ul></li>
-<li><code>#pragma omp distributed parallel for</code>
+<li><code>#pragma omp distribute parallel for</code>
 <ul>
 <li>More control for fine-tuning</li>
 <li>Parallel region may cause overhead</li>
@@ -399,7 +400,7 @@
 <p><strong>Warning</strong></p>
 </div>
 <div class="callout-content">
-<p>Do not forget <code>distributed</code>!</p>
+<p>Do not forget <code>distribute</code>!</p>
 </div>
 </div>
 </div>
@@ -417,15 +418,15 @@
 <li>Allocate data on device</li>
 </ul>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:70%;">
 <div class="fragment">
-<p>Specify slice to copy: `array[<begin>:<end>]</end></begin></p>
+<p>Specify slice to copy:</p>
 <ul>
-<li>C++: <code>&lt;end&gt;</code> not included</li>
-<li>Fortran: <code>&lt;end&gt;</code> included</li>
+<li>C++: <code>array[&lt;begin&gt;:&lt;size&gt;]</code></li>
+<li>Fortran: <code>array(&lt;begin&gt;:&lt;end&gt;)</code></li>
 </ul>
 </div>
-</div><div class="column" style="width:50%;">
+</div><div class="column" style="width:30%;">
 <div class="fragment">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -436,7 +437,7 @@
 <p><strong>Tip</strong></p>
 </div>
 <div class="callout-content">
-<p>Shortcut: <code>array[:&lt;end&gt;]</code></p>
+<p>Shortcut: <code>array[:&lt;length&gt;]</code> or <code>array(:&lt;end&gt;)</code></p>
 </div>
 </div>
 </div>
@@ -590,7 +591,7 @@
 <section id="references" class="slide level2">
 <h2>References</h2>
 <ul>
-<li><a href="https://www.openmp.org/spec-html/5.2/openmp.html">OpenMP secification</a></li>
+<li><a href="https://www.openmp.org/spec-html/5.2/openmp.html">OpenMP specification</a></li>
 </ul>
 
 </section>
