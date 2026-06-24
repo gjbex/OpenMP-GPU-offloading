@@ -17,6 +17,8 @@ HPC SDK](https://developer.nvidia.com/hpc-sdk) is used.
    device, and the number of threads in a team.
 1. `teams_cpu.c`: application that checks the number of teams on the
    device, and the number of threads in a team.
+1. `distribute_gpu.c`: application that shows the difference beteen
+   `distribute` and `distribute parallel for` constructs.
 1. `vector_product_gpu.c`: application that computes a vector product
    on the GPU.
 1. `vector_product_cpu.c`: application that computes a vector product

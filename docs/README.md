@@ -34,10 +34,12 @@ Total duration: 4 hours.
 
 ## Training materials
 
-Slides are available in the [GitHub
-repository](https://github.com/gjbex/OpenMP-GPU-offloading/) as well as example
-code and hands-on material. The slides can be viewed
-[online](https://github.com/gjbex/OpenMP-GPU-offloading/docs/slides/openmp_gpu_offloading.html).
+The [slide deck](slides/openmp_gpu_offloading.html) is available as a Quarto
+RevealJS presentation.
+
+Slides, source code, and supporting material are available in the
+[GitHub repository](https://github.com/gjbex/OpenMP-GPU-offloading/). The
+repository contains C and Fortran examples with CMake build files.
 
 
 ## Target audience
@@ -91,11 +93,30 @@ If several of these items still feel difficult, the training will probably move
 too fast. In that case, it is better to first refresh your base language and
 basic OpenMP shared-memory programming.
 
-For following along hands-on, you need
-* laptop or desktop with internet access.
-* a system set up so you can connect to an HPC system, an account on an HPC
-  system (e.g., VSC, CECI, ...), compute credits if that is required to run
-  jobs on the HPC system if you want to use an HPC system;
+### Software and access requirements
+
+To follow hands-on, you need a system with GPU hardware and a compiler toolchain
+that supports OpenMP target offloading for that hardware. The example code is
+organized as C and Fortran CMake projects.
+
+More concretely, you need:
+
+* a laptop or desktop with internet access;
+* a terminal environment that can connect to the system where the examples will
+  run;
+* an account on an HPC system if the GPU hardware is provided by a cluster;
+* compute credits or project allocation if that is required by the HPC system;
+* a C compiler for the C examples, and a Fortran compiler for the Fortran
+  examples;
+* CMake for configuring and building the examples;
+* an OpenMP offloading-capable compiler stack, such as the NVIDIA HPC SDK for
+  NVIDIA GPU examples;
+* enough familiarity with the local module or environment system to load the
+  compiler, GPU runtime, and build tools.
+
+The C and Fortran example directories contain local README files with notes on
+setting compiler environment variables such as `CC` and `FC` when using the
+NVIDIA HPC SDK.
 
 
 ## Level of the Material
